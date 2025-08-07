@@ -1,0 +1,138 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+
+interface Project {
+  id: number;
+  name: string;
+  description: string;
+  tools: string[];
+  demo: string;
+  images: string[];
+  role: string;
+  code: string;
+}
+
+@Component({
+  selector: 'app-projects',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.css'],
+})
+export class ProjectsComponent {
+  projects: Project[] = [
+    {
+      id: 1,
+      name: "Car Bidding Website",
+      description: "Car Bidding Website with users can sells and buy cars on auction.",
+      tools: ["Angular 18", "Node Js", "MySql", "Xamp", "Git", "Vs Code"],
+      demo: "",
+      images: [
+        "assets/projects/1.png",
+        "assets/projects/2.png",
+        "assets/projects/3.png",
+        "assets/projects/33.png"
+      ],
+      role: "Full Stack Developer",
+      code: "https://github.com/NabeelAhmad3/BiddingApp.git"
+    },
+    {
+      id: 2,
+      name: "UniGuard",
+      description: "Security system Website for university to access of pre register vehicles.",
+      tools: ["Angular 19", "Fast Api", "Postgress", "Pg Admin", "Git", "Vs Code"],
+      demo: "",
+      images: [
+        "assets/projects/4.png",
+        "assets/projects/5.png",
+        "assets/projects/6.png"
+      ],
+      role: "Angular Developer",
+      code: "https://github.com/NabeelAhmad3/Unigaurd_Web.git"
+    },
+    {
+      id: 3,
+      name: "Fiction Flare",
+      description: "A bloging website which user create blogs.",
+      tools: ["Angular 18", "Node Js", "MySql", "Xamp", "Git", "Vs Code"],
+      demo: "",
+      images: [
+        "assets/projects/10.png",
+        "assets/projects/11.png",
+        "assets/projects/12.png"
+      ],
+      role: "Full Stack Developer",
+      code: "https://github.com/NabeelAhmad3/bloggingApp.git"
+    },
+
+    {
+      id: 4,
+      name: "HRMS",
+      description: "HR managenemt system which cover all aspects of HR activities.",
+      tools: ["Angular 15", ".net boiler plate", "Ms Sql", "Git", "Vs Code"],
+      demo: "",
+      images: [
+        "assets/projects/7.png",
+        "assets/projects/8.png",
+        "assets/projects/9.png",
+        "assets/projects/99.png"
+      ],
+      role: "Angular Developer",
+      code: ""
+    },
+    {
+      id: 5,
+      name: "Humqadam Store",
+      description: "An E-commerce website which user can buy different shoes.",
+      tools: ["Wordpress", "Elementor", "Woo Commerce", "cPanel"],
+      code: "",
+      images: [
+        "assets/projects/13.png",
+        "assets/projects/14.png",
+        "assets/projects/15.png"
+      ],
+      role: "Wordpress Developer",
+      demo: "https://humqadam.store/"
+    }
+  ];
+
+
+  activeImageIndex: { [key: number]: number } = {};
+  intervals: { [key: number]: any } = {};
+
+  ngOnInit(): void {
+    this.projects.forEach((project) => {
+      this.activeImageIndex[project.id] = 0;
+      this.startAutoSlide(project.id, project.images.length);
+    });
+  }
+
+  ngOnDestroy(): void {
+    Object.values(this.intervals).forEach((interval) => clearInterval(interval));
+  }
+
+  startAutoSlide(projectId: number, totalImages: number): void {
+    this.intervals[projectId] = setInterval(() => {
+      this.nextSlide(projectId, totalImages);
+    }, 4000);
+  }
+
+  nextSlide(projectId: number, total: number): void {
+    this.activeImageIndex[projectId] =
+      (this.activeImageIndex[projectId] + 1) % total;
+  }
+
+  prevSlide(projectId: number): void {
+    const total = this.projects.find((p) => p.id === projectId)?.images.length || 1;
+    this.activeImageIndex[projectId] =
+      (this.activeImageIndex[projectId] - 1 + total) % total;
+  }
+  onMouseEnter(projectId: number) {
+    clearInterval(this.intervals[projectId]);
+  }
+
+  onMouseLeave(projectId: number, total: number) {
+    this.startAutoSlide(projectId, total);
+  }
+
+}

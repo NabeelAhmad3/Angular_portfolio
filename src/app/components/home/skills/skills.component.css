@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+/* MARQUEE SCROLL STYLES */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  width: max-content; /* important to prevent cutoff */
+  animation: marquee 20s linear infinite; /* you can change speed here */
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* CARD HOVER EFFECTS */
+.group {
+  transition: transform 0.25s ease-in-out; /* faster transition */
+}
+
+.group:hover {
+  transform: scale(1.15);
+}
+
+/* Card border transition on hover */
+.group-hover\:border-violet-500 {
+  transition: border-color 0.25s ease-in-out;
+}
+
+.group:hover .group-hover\:border-violet-500 {
+  border-color: rgb(139 92 246); /* violet-500 */
+}
+
+/* IMAGE SCALE ON HOVER */
+.group img {
+  transition: transform 0.25s ease-in-out;
+}
+
+.group:hover img {
+  transform: scale(1.1);
+}
